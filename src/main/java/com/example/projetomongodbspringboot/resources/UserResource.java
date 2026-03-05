@@ -1,6 +1,8 @@
 package com.example.projetomongodbspringboot.resources;
 
 import com.example.projetomongodbspringboot.domain.User;
+import com.example.projetomongodbspringboot.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +15,13 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserResource {
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity <List<User>> findAll() {
-        User M = new User("1", "M", "M@gmail.com");
-        User A = new User("2", "A", "A@gmail.com");
-
-        List<User> userList = new ArrayList<>(Arrays.asList(M,A));
-        return ResponseEntity.ok().body(userList);
+        List<User> usersList = userService.findAll();
+        return ResponseEntity.ok().body(usersList);
     }
 
     @GetMapping("/{id}")
