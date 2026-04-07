@@ -14,7 +14,12 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> findAll() {
-
         return userRepository.findAll();
     }
+
+    public User findById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
 }
