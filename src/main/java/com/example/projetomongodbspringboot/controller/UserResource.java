@@ -1,6 +1,6 @@
-package com.example.projetomongodbspringboot.resources_controller;
+package com.example.projetomongodbspringboot.controller;
 
-import com.example.projetomongodbspringboot.UserDTO.UserDTO;
+import com.example.projetomongodbspringboot.dto.UserDTO;
 import com.example.projetomongodbspringboot.domain.User;
 import com.example.projetomongodbspringboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,8 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    //@RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
         List<User> usersList = userService.findAll();
 
@@ -25,16 +26,16 @@ public class UserResource {
         return ResponseEntity.ok().body(userDTOList);
     }
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
+    //Recebe a requisição do postman para busca da chave pelo chave id
     public ResponseEntity<UserDTO> findById(@PathVariable String id) {
         User user = userService.findById(id);
-        UserDTO userDTO = new UserDTO(user);
-        return ResponseEntity.ok(userDTO);
-    }*/
+        return ResponseEntity.ok(new UserDTO(user));
+    }
 
     @GetMapping("/index/{pos}")
-    public UserDTO findByIndex(@PathVariable int pos) {
-        List<User> list = userService.findAll();
-        return new UserDTO(list.get(pos));
+    public ResponseEntity<UserDTO> findByIndex(@PathVariable int pos) {
+        User user = userService.findByIndex(pos);
+        return ResponseEntity.ok(new UserDTO(user));
     }
 }

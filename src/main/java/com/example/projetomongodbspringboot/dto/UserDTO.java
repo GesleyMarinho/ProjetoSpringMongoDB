@@ -1,4 +1,4 @@
-package com.example.projetomongodbspringboot.UserDTO;
+package com.example.projetomongodbspringboot.dto;
 
 import com.example.projetomongodbspringboot.domain.User;
 
