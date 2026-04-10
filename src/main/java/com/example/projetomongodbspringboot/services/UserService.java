@@ -1,6 +1,7 @@
 package com.example.projetomongodbspringboot.services;
 
 import com.example.projetomongodbspringboot.domain.User;
+import com.example.projetomongodbspringboot.dto.UserDTO;
 import com.example.projetomongodbspringboot.repository.UserRepository;
 import com.example.projetomongodbspringboot.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class UserService {
     }
 
 
+    public User insert(User user) {
+        return userRepository.insert(user);
+    }
 
 
 }
