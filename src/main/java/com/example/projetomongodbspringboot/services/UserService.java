@@ -1,7 +1,6 @@
 package com.example.projetomongodbspringboot.services;
 
 import com.example.projetomongodbspringboot.domain.User;
-import com.example.projetomongodbspringboot.dto.UserDTO;
 import com.example.projetomongodbspringboot.repository.UserRepository;
 import com.example.projetomongodbspringboot.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +44,18 @@ public class UserService {
         findById(id);
         userRepository.deleteById(id);
     }
+
+    public void update(User user) {
+        User objUser = findById(user.getId());
+        updateData(objUser,user);
+
+        userRepository.save(objUser);
+    }
+
+    private void updateData(User oldUser, User user) {
+        oldUser.setName(user.getName());
+        oldUser.setEmail(user.getEmail());
+    }
+
+
 }
