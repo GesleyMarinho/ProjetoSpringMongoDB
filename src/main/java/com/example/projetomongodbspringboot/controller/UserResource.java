@@ -1,7 +1,10 @@
 package com.example.projetomongodbspringboot.controller;
 
+import com.example.projetomongodbspringboot.domain.Post;
+import com.example.projetomongodbspringboot.dto.PostDTO;
 import com.example.projetomongodbspringboot.dto.UserDTO;
 import com.example.projetomongodbspringboot.domain.User;
+import com.example.projetomongodbspringboot.mapper.PostMapper;
 import com.example.projetomongodbspringboot.mapper.UserMapper;
 import com.example.projetomongodbspringboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ public class UserResource {
 
     @Autowired
     private UserService userService;
+
+
 
 
     @GetMapping
@@ -68,5 +73,17 @@ public class UserResource {
         user.setId(id);
         userService.update(user);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @Autowired
+    private PostMapper mapperPost;
+
+    @GetMapping(value="/{id}/posts")
+    public ResponseEntity<List<PostDTO>> findPosts(@PathVariable String id) {
+        User obj = userService.findById(id);
+        List<PostDTO> list = obj.getPosts().stream().map(mapperPost::toDTO).toList();
+
+        return ResponseEntity.ok().body(list);
     }
 }
