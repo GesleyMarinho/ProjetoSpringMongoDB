@@ -2,7 +2,6 @@ package com.example.projetomongodbspringboot.config;
 
 import com.example.projetomongodbspringboot.domain.Post;
 import com.example.projetomongodbspringboot.domain.User;
-import com.example.projetomongodbspringboot.dto.UserDTO;
 import com.example.projetomongodbspringboot.repository.PostRepository;
 import com.example.projetomongodbspringboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,10 @@ public class Instantiation implements CommandLineRunner {
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
         userRepository.saveAll(Arrays.asList(maria, alex, bob));
 
-        Post postMaria = new Post(null,sdf.parse("24-04-2026"), "BOM Dia", "Acordei Feliz",maria);
-        postRepository.saveAll(Arrays.asList(postMaria));
+        Post postMaria = new Post(null, sdf.parse("24-04-2026"), "BOM Dia", "Acordei Feliz", maria);
+        Post postMaria2 = new Post(null, sdf.parse("27-04-2026"), "Boa Noite", "Bora Dormir", maria);
+        postRepository.saveAll(Arrays.asList(postMaria, postMaria2));
+        maria.getPosts().addAll(Arrays.asList(postMaria, postMaria2));
+        userRepository.save(maria);
     }
 }
