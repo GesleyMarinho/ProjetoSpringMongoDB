@@ -1,6 +1,7 @@
 package com.example.projetomongodbspringboot.services;
 
 import com.example.projetomongodbspringboot.domain.Post;
+import com.example.projetomongodbspringboot.exception.ObjectNotFoundException;
 import com.example.projetomongodbspringboot.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,13 @@ public class PostService {
     private PostRepository postRepository;
 
 
-    public List<Post> findAllPosts()
-    {
+    public List<Post> findAllPosts() {
         return postRepository.findAll();
     }
+
+    public Post findById(String id) {
+
+        return postRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Post não encontrado para usuário: " + id));
+    }
 }
+

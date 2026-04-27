@@ -1,15 +1,12 @@
 package com.example.projetomongodbspringboot.controller;
 
 import com.example.projetomongodbspringboot.domain.Post;
-import com.example.projetomongodbspringboot.dto.AuthorDTO;
 import com.example.projetomongodbspringboot.dto.PostDTO;
 import com.example.projetomongodbspringboot.mapper.PostMapper;
-import com.example.projetomongodbspringboot.repository.PostRepository;
+import com.example.projetomongodbspringboot.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,18 +14,27 @@ import java.util.List;
 @RequestMapping(value = "/posts")
 public class PostResource {
     @Autowired
-    private PostRepository postRepository;
+    private PostService postService;
     @Autowired
     private PostMapper mapper;
 
     @GetMapping
     public ResponseEntity<List<PostDTO>> findAll() {
-        List<PostDTO> list = postRepository.findAll()
+        List<PostDTO> list = postService.findAllPosts()
                 .stream()
                 .map(mapper::toDTO)
                 .toList();
 
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDTO> findById(@PathVariable String id) {
+        Post post = postService.findById(id);
+
+        PostDTO dto = mapper.toDTO(post);
+
+        return ResponseEntity.ok(dto);
     }
 
 }
