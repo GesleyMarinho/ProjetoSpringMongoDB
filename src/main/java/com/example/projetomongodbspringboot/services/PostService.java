@@ -28,5 +28,9 @@ public class PostService {
     public List<Post> findByTitleContaining(String text) {
         return postRepository.findByTitleContainingIgnoreCase(text);
     }
+
+    public List<Post> findByAuthorContaining(String author) {
+        return postRepository.findByAuthorName(author);
+    }
 }
 

@@ -43,11 +43,16 @@ public class PostResource {
     @GetMapping(value = "/titlesearch")
     public ResponseEntity<List<PostDTO>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) throws UnsupportedEncodingException {
 
-
         text = URL.decodeparam(text);
         List<PostDTO> list = postService.findByTitleContaining(text).stream().map(post -> mapper.toDTO(post)).toList();
 
+        return ResponseEntity.ok(list);
+    }
 
+    @GetMapping("/authorsearch")
+    public ResponseEntity<List<PostDTO>> findByAuthor(@RequestParam(value = "text", defaultValue = "") String text) throws UnsupportedEncodingException {
+        text = URL.decodeparam(text);
+        List<PostDTO> list = postService.findByAuthorContaining(text).stream().map(mapper::toDTO).toList();
         return ResponseEntity.ok(list);
     }
 }
