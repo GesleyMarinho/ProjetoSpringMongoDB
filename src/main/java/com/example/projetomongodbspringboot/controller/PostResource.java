@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -55,4 +55,24 @@ public class PostResource {
         List<PostDTO> list = postService.findByAuthorContaining(text).stream().map(mapper::toDTO).toList();
         return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/fullsearch")
+    public ResponseEntity<List<PostDTO>> fullSearch(
+            @RequestParam(value = "text", defaultValue = "") String text,
+            @RequestParam(value = "minDate", defaultValue = "") String minDate,
+            @RequestParam(value = "maxDate", defaultValue = "") String maxDate) throws UnsupportedEncodingException {
+
+        text = URL.decodeparam(text);
+
+        Date min = URL.convertDate(minDate, new Date(0L));
+        Date max = URL.convertDate(maxDate, new Date());
+
+        List<PostDTO> list = postService.fullSearch(text, min, max)
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+
+        return ResponseEntity.ok(list);
+    }
+
 }
