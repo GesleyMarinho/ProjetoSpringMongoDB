@@ -1,5 +1,6 @@
 package com.example.projetomongodbspringboot.controller;
 
+import com.example.projetomongodbspringboot.controller.util.URL;
 import com.example.projetomongodbspringboot.domain.Post;
 import com.example.projetomongodbspringboot.dto.PostDTO;
 import com.example.projetomongodbspringboot.mapper.PostMapper;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -37,4 +40,14 @@ public class PostResource {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping(value = "/titlesearch")
+    public ResponseEntity<List<PostDTO>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) throws UnsupportedEncodingException {
+
+
+        text = URL.decodeparam(text);
+        List<PostDTO> list = postService.findByTitleContaining(text).stream().map(post -> mapper.toDTO(post)).toList();
+
+
+        return ResponseEntity.ok(list);
+    }
 }

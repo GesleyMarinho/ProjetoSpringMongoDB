@@ -23,5 +23,10 @@ public class PostService {
 
         return postRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Post não encontrado para usuário: " + id));
     }
+
+
+    public List<Post> findByTitleContaining(String text) {
+        return postRepository.findByTitleContainingIgnoreCase(text);
+    }
 }
 
